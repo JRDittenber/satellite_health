@@ -14,6 +14,18 @@ Predict the health status of satellites based on telemetry data to enable proact
 
 3. Reducing the rate of false positives and false negatives in predictions to avoid unnecessary maintenance efforts and ensure that actual issues are addressed promptly.
 
+# Misclassification Costs (estimation)
+
+1. False Positive (predicting a malfunction when the component is healthy):
+Unnecessary maintenance check: $5,000
+Unwarranted component replacement: $50,000
+
+
+2. False Negative (predicting a component is healthy when it is malfunctioning):
+Data loss or degradation: $100,000
+Partial mission failure: $500,000
+Total mission failure or satellite loss: $300,000,000
+
 # Team Focus
 
 1. Thoroughly exploring the data to understand the relationships between various telemetry variables and satellite health.
