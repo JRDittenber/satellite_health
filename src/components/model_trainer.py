@@ -1,0 +1,95 @@
+import os
+import sys 
+from dataclasses import dataclass
+
+from sklearn.linear_model import LogisticRegression
+
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
+
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+
+from src.exception import CustomException
+from src.logger import logging 
+from src.utils import save_object
+from src.utils import evaluate_models
+
+
+@dataclass
+class ModelTrainerConfig: 
+    trained_model_file_path=os.path.join('artifacts', 'model.pkl')
+    
+class ModelTrainer:
+    def __init__(self): 
+        self.model_trainer_config=ModelTrainerConfig() 
+        
+    def initiate_model_trainer(self, train_array, test_array):
+        try: 
+            logging.info("Split training and test input data")
+            X_train,y_train,X_test, y_test=(
+                train_array[:,:-1],
+                train_array[:,-1],
+                test_array[:,:-1],
+                test_array[:,-1]
+            )
+            
+            models = {
+                "Logistic Regression": LogisticRegression(),
+                "K-Nearest Neighbors": KNeighborsClassifier(),
+                "Decision Tree": DecisionTreeClassifier(),
+                "Random Forest": RandomForestClassifier()
+            }
+            
+            params ={
+                "Logistic Regression": {},
+                "K-Nearest Neighbors": {},
+                "Decision Tree": {
+                    'criterion':['gini', 'entropy'],
+                    'splitter':['best', 'random'],
+                    'max_depth':[None, 5, 10, 20],
+                    'min_samples_split':[2, 5, 10],
+                    'min_samples_leaf':[1, 2, 4]
+                },
+                "Random Forest":{
+                    'n_estimators': [10, 50, 100, 200],
+                    'criterion':['gini', 'entropy'],
+                    'max_depth':[None, 5, 10, 20],
+                    'min_samples_split':[2, 5, 10],
+                    'min_samples_leaf':[1, 2, 4]
+                }
+            }
+            
+            model_report:dict = evaluate_models(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test, 
+                                                models = models, param=params)
+            
+            best_model_score = max(sorted(model_report.values()))
+            
+            best_model_name = list(model_report.keys())[
+                list(model_report.values()).index(best_model_score)
+            ]
+            
+            best_model = models[best_model_name]
+            
+            if best_model_score < 0.6: 
+                raise CustomException("No best model found")
+            
+            logging.info(f"Best model found on both training and testing dataset")
+            
+            
+            save_object(
+                file_path= self.model_trainer_config.trained_model_file_path,
+                obj=best_model
+            )
+            
+            predicted=best_model.predict(X_test)
+            
+            accuracy = accuracy_score(y_test, predicted)
+            precision = precision_score(y_test, predicted)
+            recall = recall_score(y_test, predicted)
+            f1 = f1_score(y_test, predicted)
+            
+            return {"accuracy": accuracy, "precision": precision, "recall": recall, "f1": f1}
+            
+        except Exception as e:
+            raise CustomException(e, sys) 

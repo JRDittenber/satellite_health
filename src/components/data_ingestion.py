@@ -4,6 +4,17 @@ from pymongo import MongoClient
 from dotenv import load_dotenv
 import pandas as pd
 
+
+# Add the project root directory to the system path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+
+
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
+client = MongoClient("mongodb+srv://{MONGO_USERNAME}:{MONGO_PASSWORD}@cluster0.mzof3kn.mongodb.net/{MONGO_DB_NAME}?retryWrites=true&w=majority", ssl=True, ssl_cert_reqs=ssl.CERT_NONE)
+
+
+
 from src.exception import CustomException
 from src.logger import logging
 
@@ -23,11 +34,17 @@ load_dotenv(".env")
 
 MONGO_USERNAME = os.environ.get("MONGO_USERNAME")
 MONGO_PASSWORD = os.environ.get("MONGO_PASSWORD")
-MONGO_DB_NAME = os.environ.get("MONGO_DB_NAME")
+MONGO_DB_NAME = 'satellite_data'
 
-client = MongoClient(f"mongodb+srv://{MONGO_USERNAME}:{MONGO_PASSWORD}@cluster0.mongodb.net/{MONGO_DB_NAME}?retryWrites=true&w=majority")
 
-db = client[MONGO_DB_NAME]
+client = MongoClient(f"mongodb+srv://{MONGO_USERNAME}:{MONGO_PASSWORD}@cluster0.mzof3kn.mongodb.net/{MONGO_DB_NAME}?retryWrites=true&w=majority")
+
+
+
+
+
+
+db = client['space_client']
 collection = db["satellite_data"]
 
 @dataclass
