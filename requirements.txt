@@ -7,5 +7,6 @@ Flask
 joblib
 statsmodels 
 pymongo 
+python-dotenv
 
 

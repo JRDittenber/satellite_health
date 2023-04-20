@@ -85,3 +85,40 @@ Description: Binary flag indicating if the thermal control system is working or 
 Range: 0 (unhealthy) or 1 (healthy)
 Description: Target variable - binary flag indicating if the satellite is healthy or unhealthy
 
+# Project Architecture
+
+```
+project_name/
+│
+├── .env
+├── .gitignore
+├── README.md
+├── requirements.txt
+├── setup.py
+│
+├── src/
+│   ├── components/
+│   │   ├── __init__.py
+│   │   ├── data_ingestion.py
+│   │   ├── data_transformation.py
+│   │   └── model_trainer.py
+│   │
+│   ├── pipeline/
+│   │   ├── __init__.py
+│   │   ├── predict_pipeline.py
+│   │   └── train_pipeline.py
+│   │
+│   ├── __init__.py
+│   ├── exception.py
+│   ├── logger.py
+│   └── utils.py
+│
+├── templates/
+│   ├── index.html
+│   └── result.html
+│
+└── notebooks/
+    ├── data/
+    ├── EDA.ipynb
+    └── Model_Train.ipynb
+```
