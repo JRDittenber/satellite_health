@@ -5,6 +5,7 @@ matplotlib
 seaborn 
 Flask 
 joblib
+dnspython
 statsmodels 
 pymongo 
 python-dotenv
