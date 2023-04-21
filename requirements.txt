@@ -10,5 +10,6 @@ dnspython
 statsmodels 
 pymongo 
 python-dotenv
+requests
 
 
