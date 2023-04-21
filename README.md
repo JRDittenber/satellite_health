@@ -122,3 +122,58 @@ project_name/
     ├── EDA.ipynb
     └── Model_Train.ipynb
 ```
+
+```
+.env: A file that contains environment variables used in the project, such as API keys, database credentials, etc.
+
+.gitignore: A file that tells Git which files and directories to ignore when committing code changes.
+
+README.md: A file that contains information about the project, including how to set up the environment, how to run the code, and any other important information about the project.
+
+requirements.txt: A file that lists all the Python packages required to run the project.
+
+setup.py: A file that is used to package the project and distribute it to other users.
+
+src/: A directory that contains all the source code for the project.
+
+components/: A subdirectory that contains the code for the data ingestion, data transformation, and model training components.
+
+__init__.py: An empty file that is used to tell Python that this directory should be treated as a package.
+
+data_ingestion.py: A module that downloads the raw data from a database, preprocesses it, and saves the preprocessed data as train and test sets.
+
+data_transformation.py: A module that performs data transformation on the preprocessed data, such as scaling and one-hot encoding, and saves the preprocessor object.
+
+model_trainer.py: A module that trains a machine learning model on the transformed data and saves the trained model and evaluation metrics.
+pipeline/: A subdirectory that contains the code for the prediction and training pipelines.
+
+__init__.py: An empty file that is used to tell Python that this directory should be treated as a package.
+
+predict_pipeline.py: A module that loads the preprocessor object and trained model and makes predictions on new data.
+
+train_pipeline.py: A module that runs the data ingestion, data transformation, and model training components in sequence.
+
+__init__.py: An empty file that is used to tell Python that this directory should be treated as a package.
+
+exception.py: A module that defines a custom exception class for handling errors in the project.
+
+logger.py: A module that defines a logging object for logging messages and errors during the project.
+
+utils.py: A module that defines utility functions used throughout the project, such as saving and loading objects.
+
+templates/: A directory that contains the HTML templates for the web app.
+
+index.html: The main page of the web app that allows users to upload data and make predictions.
+
+result.html: The page of the web app that displays the predictions.
+
+notebooks/: A directory that contains Jupyter notebooks used for 
+exploratory data analysis (EDA) and model training.
+
+data/: A subdirectory that contains the raw data used for EDA and model training.
+
+EDA.ipynb: A notebook that contains code for visualizing and analyzing the raw data.
+
+Model_Train.ipynb: A notebook that contains code for preprocessing, transforming, and training the data.
+
+```
