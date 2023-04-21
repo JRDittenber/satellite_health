@@ -18,11 +18,12 @@ from src.exceptions import CustomException
 from src.logger import logging
 from src.utils import save_object, evaluate_models
 
+import warnings
+warnings.filterwarnings('ignore')
 
 @dataclass
 class ModelTrainerConfig:
     trained_model_file_path = os.path.join("artifacts", "model.pkl")
-
 
 class ModelTrainer:
     def __init__(self):
@@ -41,19 +42,14 @@ class ModelTrainer:
             models = {
                 "Logistic Regression": LogisticRegression(),
                 "Decision Tree": DecisionTreeClassifier(),
-                "Random Forest": RandomForestClassifier(),
-                "Gradient Boosting": GradientBoostingClassifier(),
-                "K Nearest Neighbors": KNeighborsClassifier(),
-                "XGBClassifier": XGBClassifier(),
-                "CatBoosting Classifier": CatBoostClassifier(verbose=False),
-                "AdaBoost Classifier": AdaBoostClassifier(),
+                "Random Forest": RandomForestClassifier(), 
             }
 
             params = {
                 "Logistic Regression": {
-                    "penalty": ["l1", "l2", "elasticnet", "none"],
+                    "penalty": ["l1", "l2", "none"],
                     "C": [0.1, 0.5, 1.0, 5.0, 10.0],
-                    "solver": ["newton-cg", "lbfgs", "liblinear", "sag", "saga"],
+                    "solver": ["newton-cg", "lbfgs", "sag", "saga"],
                 },
                 "Decision Tree": {
                     "criterion": ["gini", "entropy"],
@@ -64,30 +60,7 @@ class ModelTrainer:
                     "criterion": ["gini", "entropy"],
                     "n_estimators": [8, 16, 32, 64, 128, 256],
                     "max_depth": [None, 10, 20, 30],
-                },
-                "Gradient Boosting": {
-                    "loss": ["deviance", "exponential"],
-                    "learning_rate": [0.01, 0.05, 0.1],
-                    "subsample": [0.6, 0.7, 0.75, 0.8, 0.85, 0.9],
-                    "max_depth": [3, 4, 5, 6],
-                    "n_estimators": [8, 16, 32, 64, 128, 256],
-                },
-                                "K Nearest Neighbors": {"n_neighbors": [3, 5, 7, 9]},
-                "XGBClassifier": {
-                    "learning_rate": [0.01, 0.05, 0.1],
-                    "max_depth": [3, 4, 5, 6],
-                    "n_estimators": [8, 16, 32, 64, 128, 256],
-                },
-                "CatBoosting Classifier": {
-                    "depth": [4, 6, 8, 10],
-                    "learning_rate": [0.01, 0.05, 0.1],
-                    "iterations": [30, 50, 100],
-                    "l2_leaf_reg": [3, 5, 7, 9]
-                },
-                "AdaBoost Classifier": {
-                    "n_estimators": [8, 16, 32, 64, 128, 256],
-                    "learning_rate": [0.01, 0.05, 0.1],
-                },
+                }
             }
 
             model_report = evaluate_models(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test,
@@ -111,4 +84,3 @@ class ModelTrainer:
 
         except Exception as e:
             raise CustomException(e, sys)
-
