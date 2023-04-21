@@ -1,10 +1,27 @@
 from setuptools import setup, find_packages
+from typing import List
 import os
 
 
-def read_requirements():
-    with open(os.path.join(os.path.dirname(__file__), 'requirements.txt')) as f:
-        return [line.strip() for line in f.readlines() if not line.startswith('#')]
+
+HYPHEN_e = '-e .'
+
+def get_requirements(file_path:str)-> List[str]:
+    """This function will return the requirements 
+    """
+    
+    requirements = []    
+    with open(file_path) as file_obj:
+        requirements= file_obj.readlines() 
+        requirements = [req.replace("\n",  "") for req in requirements]
+        
+        if HYPHEN_e in requirements: 
+            requirements.remove(HYPHEN_e)
+        
+        
+    return requirements
+
+
 
 
 setup(
@@ -15,7 +32,7 @@ setup(
     author_email='jeff.dittenber@hotmail.com',
     url='https://github.com/JRDittenber/satellite_health',
     packages=find_packages(),
-    install_requires=read_requirements(),
+    install_requires=get_requirements('requirements.txt'),
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Science/Research',
